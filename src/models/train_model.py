@@ -1,46 +1,27 @@
 import argparse
 import sys
-
 import torch
 import click
-
-from data import mnist
+from src.data.make_dataset import CorruptMnist 
 from torch import nn, optim
+from model import MyAwesomeModel
 
-import torch.nn.functional as F
-
-class MyAwesomeModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.fc1 = nn.Linear(784, 256)
-        self.fc2 = nn.Linear(256, 128)
-        self.fc3 = nn.Linear(128, 64)
-        self.fc4 = nn.Linear(64, 10)
-        
-    def forward(self, x):
-        # make sure input tensor is flattened
-        x = x.view(x.shape[0], -1)
-        
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = F.relu(self.fc3(x))
-        x = F.log_softmax(self.fc4(x), dim=1)
-        
-        return x
     
 def train(lr):
     print("Training day and night")
     print(lr)
 
     model = MyAwesomeModel()
-    train_set, test_set = mnist()
+    dataset = CorruptMnist()
+    train_set = dataset.test_np_loader
+    test_set = dataset.train_np_loader
     
     # Define the loss
     criterion = nn.NLLLoss()
     # Define the optimizer
     optimizer = optim.Adam(model.parameters(), lr=0.003)
 
-    epochs = 30
+    epochs = 3
     steps = 0
 
     train_losses, test_losses = [], []
@@ -85,3 +66,6 @@ def train(lr):
                 "Training Loss: {:.3f}.. ".format(train_loss),
                 "Test Loss: {:.3f}.. ".format(test_loss),
                 "Test Accuracy: {:.3f}".format(test_correct / len(test_set.dataset)))
+    torch.save(model.state_dict(), "models/trained_model.pt")
+        
+train(0.0)
