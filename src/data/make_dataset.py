@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import click
 import logging
 from pathlib import Path
-from dotenv import find_dotenv, load_dotenv
 
-import torch
+import click
 import numpy as np
+import torch
+from dotenv import find_dotenv, load_dotenv
+from torch.utils.data import DataLoader, Dataset
 from torchvision import datasets, transforms
-from torch.utils.data import Dataset, DataLoader
 
 
 class CorruptMnist(Dataset):

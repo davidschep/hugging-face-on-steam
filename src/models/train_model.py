@@ -1,12 +1,14 @@
 import argparse
 import sys
-import torch
-import click
-from src.data.make_dataset import CorruptMnist 
-from torch import nn, optim
-from model import MyAwesomeModel
 
-    
+import click
+import torch
+from model import MyAwesomeModel
+from torch import nn, optim
+
+from src.data.make_dataset import CorruptMnist
+
+
 def train(lr):
     print("Training day and night")
     print(lr)

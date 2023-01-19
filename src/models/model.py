@@ -1,5 +1,6 @@
-from torch import Tensor, nn
 import torch.nn.functional as F
+from torch import Tensor, nn
+
 
 class MyAwesomeModel(nn.Module):
     def __init__(self):
